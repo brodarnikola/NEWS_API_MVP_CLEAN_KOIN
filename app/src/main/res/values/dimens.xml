@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="edittext_radius_extrasmall">4dp</dimen>
+
+</resources>
