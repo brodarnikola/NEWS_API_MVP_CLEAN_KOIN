@@ -2,18 +2,16 @@ package com.vjezba.data.model
 
 
 import com.google.gson.annotations.SerializedName
-import com.vjezba.domain.entities.Repository
+import com.vjezba.domain.entities.Articles
+import com.vjezba.domain.entities.News
 import com.vjezba.domain.entities.RepositoryDetails
 
-data class News(
+data class ApiNews(
 
-    @SerializedName("status")
     val status: String = "",
-    @SerializedName("source")
     val source: String = "",
-    @SerializedName("sortBy")
     val sortBy: String = "",
-    val articles: List<RepositoryDetails>,
+    val articles: List<Articles>,
 
     @SerializedName("total_count")
     val total_count: Int,
@@ -23,6 +21,6 @@ data class News(
 )
 
 
-fun News.mapToRepository(): Repository {
-    return Repository(total_count, incomplete_results, items)
+fun ApiNews.mapToNewsDomain(): News {
+    return News(status, source, sortBy, articles)
 }

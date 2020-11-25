@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -13,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.vjezba.domain.entities.Repository
-import com.vjezba.domain.entities.RepositoryDetails
+import com.vjezba.domain.entities.Articles
+import com.vjezba.domain.entities.News
 import com.vjezba.domain.entities.RepositoryOwnerDetails
 import com.vjezba.domain.usecase.GithubContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
@@ -24,12 +22,10 @@ import com.vjezba.mvpcleanarhitecturefactorynews.presentation.dialog.DisableUser
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.hide
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.show
 import kotlinx.android.synthetic.main.activity_repositories.*
-import kotlinx.android.synthetic.main.dialog_search_repository.*
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import org.koin.android.ext.android.inject
-import java.util.*
 
 class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
     RepositorySearchInterface {
@@ -38,10 +34,9 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
     private lateinit var repositoryAdapter: RepositoryAdapter
     val repositoryLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-    var repositoryTotalCount = 0
     var disableUserActionDialog: DisableUserActionsDialog = DisableUserActionsDialog()
 
-    val repositoryList: MutableList<RepositoryDetails> = mutableListOf()
+    val repositoryList: MutableList<Articles> = mutableListOf()
 
     var loading = false
 
@@ -53,9 +48,9 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repositories)
         githubPresenter.attachView( this )
-        repositoryAdapter = RepositoryAdapter( mutableListOf<RepositoryDetails>(),
+        repositoryAdapter = RepositoryAdapter( mutableListOf<Articles>(),
             { userDetails: RepositoryOwnerDetails -> setUserDetailsClickListener(userDetails) },
-            { repositoryDetails: RepositoryDetails -> setRepositoryDetailsClickListener( repositoryDetails ) }  )
+            { Articles: Articles -> setArticlesClickListener( Articles ) }  )
         repository_list.apply {
             layoutManager = repositoryLayoutManager
             adapter = repositoryAdapter
@@ -91,9 +86,9 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
             })
     }
 
-    private fun setRepositoryDetailsClickListener(repositoryDetails: RepositoryDetails) {
+    private fun setArticlesClickListener(Articles: Articles) {
         val intent = Intent( this, RepositoryDetailsActivity::class.java )
-        intent.putExtra("idRepository", repositoryDetails.id)
+        intent.putExtra("idRepository", Articles.author.toInt())
         startActivity(intent)
     }
 
@@ -108,17 +103,16 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
         startActivity(intent)
     }
 
-    override fun setRepository(repository: Repository) {
+    override fun setRepository(repository: News) {
         hideKeyboard(window.decorView)
-        repositoryAdapter.setItems(repository.items)
-        repositoryList.addAll(repository.items)
-        repositoryTotalCount = repository.total_count
+        repositoryAdapter.setItems(repository.articles)
+        repositoryList.addAll(repository.articles)
         loading = false
         if( disableUserActionDialog.isAdded || disableUserActionDialog.isVisible )
             disableUserActionDialog.dismiss()
 
-        print("aaa" + repository.items.joinToString("-"))
-        System.out.println("BBBB" + repository.items.joinToString("-"))
+        print("aaa" + repository.articles.joinToString("-"))
+        System.out.println("BBBB" + repository.articles.joinToString("-"))
     }
 
     override fun showMessage(message: String) {
@@ -156,12 +150,6 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    override fun setFilteredRepositories(repositoryList: MutableList<RepositoryDetails>) {
-        repository_list.getLayoutManager()?.scrollToPosition(0)
-        //repositoryLayoutManager.smoothScrollToPosition(repository_list, null, 0)
-        repositoryAdapter.updateDevices(repositoryList)
     }
 
     override fun onDestroy() {

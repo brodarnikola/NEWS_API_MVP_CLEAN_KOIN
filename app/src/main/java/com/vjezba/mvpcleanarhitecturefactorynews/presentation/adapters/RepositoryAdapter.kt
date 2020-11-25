@@ -9,28 +9,23 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.vjezba.domain.entities.RepositoryDetails
+import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.entities.RepositoryOwnerDetails
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.common.ListDiffer
 import kotlinx.android.synthetic.main.repository_list.view.*
 
 
-class RepositoryAdapter(var repositoryFiltered: MutableList<RepositoryDetails>,
+class RepositoryAdapter(var repositoryFiltered: MutableList<Articles>,
                         val userDetailsClickListener: (RepositoryOwnerDetails) -> Unit,
-                        val repositoryDetailsClickListener: (RepositoryDetails) -> Unit )
+                        val ArticlesClickListener: (Articles) -> Unit )
     : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photo: ImageView = itemView.imagePhoto
         val layoutParent: ConstraintLayout = itemView.parentLayout
 
-        val authorName: TextView = itemView.textAuthorName
-        val fullName: TextView = itemView.textRepositoryName
-        val description: TextView = itemView.textDescription
-        val starGazers: TextView = itemView.textStarGazers
-        val forksCount: TextView = itemView.textForksCount
-        val issueCount: TextView = itemView.textIssueCount
+        val title: TextView = itemView.textTitleName
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,42 +34,39 @@ class RepositoryAdapter(var repositoryFiltered: MutableList<RepositoryDetails>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user = repositoryFiltered[position]
+        val article = repositoryFiltered[position]
 
         print("lockerList.joinToString")
         Glide.with(holder.itemView)
-            .load(user.owner.avatar_url)
+            .load(article.urlToImage)
             .placeholder(R.drawable.placeholder)
             .error(R.drawable.error2)
             .fallback(R.drawable.error2)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.photo)
 
-        holder.authorName.text = "Name: " + user.owner.login
-        holder.fullName.text = "Repositoriy: " + user.name
-        holder.description.text = "Description: " + user.description
-        holder.starGazers.text = "Star gazers: " + user.stargazers_count
-        holder.forksCount.text = "Forks count: " + user.forks
-        holder.issueCount.text = "Issue count: " + user.open_issues
+        holder.title.text = "Name: " + article.title
 
         holder.photo.setOnClickListener{
-            userDetailsClickListener(user.owner)
+            userDetailsClickListener(RepositoryOwnerDetails("", "", "", "", "", false))
         }
 
         holder.layoutParent.setOnClickListener{
-            repositoryDetailsClickListener(user)
+            ArticlesClickListener(article)
         }
     }
 
-    fun updateDevices(updatedDevices: List<RepositoryDetails>) {
+    fun updateDevices(updatedDevices: List<Articles>) {
         val listDiff = ListDiffer.getDiff(
             repositoryFiltered,
             updatedDevices,
             { old, new ->
-                old.description == new.description &&
-                        old.forks == new.forks &&
-                old.name == new.name &&
-                old.owner.login == new.owner.login
+                        old.author == new.author &&
+                        old.title == new.title &&
+                        old.description == new.description &&
+                        old.url == new.url &&
+                        old.urlToImage == new.urlToImage &&
+                        old.publishedAt == new.publishedAt
             })
 
         for (diff in listDiff) {
@@ -102,7 +94,7 @@ class RepositoryAdapter(var repositoryFiltered: MutableList<RepositoryDetails>,
         return repositoryFiltered.size
     }
 
-    fun setItems(data: List<RepositoryDetails>) {
+    fun setItems(data: List<Articles>) {
         repositoryFiltered.addAll(data)
         notifyDataSetChanged()
     }
