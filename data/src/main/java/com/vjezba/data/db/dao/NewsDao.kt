@@ -40,17 +40,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NewsDao {
 
+//  @Query("SELECT * FROM news_table")
+//  fun getNews(): Flow<List<DBNews>>
+
   @Query("SELECT * FROM news_table")
-  fun getNews(): Flow<List<DBNews>>
+  fun getNews(): List<DBNews>
 
   @Transaction
-  suspend fun updateNews(forecasts: List<DBNews>) {
+  suspend fun updateNews(news: List<DBNews>) {
     clearNews()
-    insertAllNews(forecasts)
+    insertAllNews(news)
   }
 
   @Insert
-  suspend fun insertAllNews(forecasts: List<DBNews>)
+  suspend fun insertAllNews(news: List<DBNews>)
 
   @Query("DELETE FROM news_table")
   suspend fun clearNews()

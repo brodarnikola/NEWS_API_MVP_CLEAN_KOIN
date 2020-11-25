@@ -13,6 +13,7 @@ import com.vjezba.domain.entities.MainResponse
 import com.vjezba.domain.Result
 import com.vjezba.domain.entities.News
 import com.vjezba.domain.entities.RepositoryDetails
+import kotlinx.coroutines.flow.toList
 
 class GithubRepositoryImpl(private val serviceProvider: NewsService, private val dbNews: NewsDatabase,
                            private val dbMapper: DbMapper) : GithubRepository {
@@ -22,6 +23,7 @@ class GithubRepositoryImpl(private val serviceProvider: NewsService, private val
             val mainResponseDAO = serviceProvider.getRepositoryAsync(repository, sort, order, page, pageNumber).await()
             val news = mainResponseDAO.mapToNewsDomain()
             dbNews.newsDao().updateNews(dbMapper.mapDomainNewsToDbNews(mainResponseDAO))
+            val test = dbNews.newsDao().getNews()
             Result.Success(news)
         } catch (e: Throwable) {
             Result.Error(e)

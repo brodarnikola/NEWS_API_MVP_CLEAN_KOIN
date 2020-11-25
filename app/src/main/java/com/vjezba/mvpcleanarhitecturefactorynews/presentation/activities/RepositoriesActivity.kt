@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.vjezba.data.db.NewsDatabase
+import com.vjezba.data.db.dao.NewsDao
 import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.entities.News
 import com.vjezba.domain.entities.RepositoryOwnerDetails

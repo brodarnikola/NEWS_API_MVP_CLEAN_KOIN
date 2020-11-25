@@ -29,29 +29,35 @@ class RepositoryPresenter(private val githubInteractor: GithubInteractor) : Gith
     }
 
     override fun getRepositories(repository: String, sort: String, order: String, showOtherData: Boolean) {
-        job = launch {
+        view?.showProgress()
+        job = launch(Dispatchers.IO) {
             getRepositoriesAsync(repository, sort, order, showOtherData)
         }
     }
 
     suspend fun getRepositoriesAsync(repository: String, sort: String, order: String, showOtherData: Boolean) {
-        view?.showProgress()
 
         if( !showOtherData )
             page = 1
 
         when (val result = githubInteractor.getRepositories(repository, sort, order, page, pageNumber)) {
+
             is Result.Success -> {
-                view?.setRepository(result.data)
-                page++
+                withContext(Dispatchers.Main) {
+                    view?.hideProgress()
+                    view?.setRepository(result.data)
+                    page++
+                }
             }
             is Result.Error -> {
-                result.throwable.message?.let {
-                    view?.showMessage(it)
+                withContext(Dispatchers.Main) {
+                    result.throwable.message?.let {
+                        view?.hideProgress()
+                        view?.showMessage(it)
+                    }
                 }
             }
         }
-        view?.hideProgress()
     }
 
     override fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean) {
