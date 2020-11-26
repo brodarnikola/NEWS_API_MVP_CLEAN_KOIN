@@ -34,28 +34,27 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.vjezba.data.db.entities.DBNews
-import kotlinx.coroutines.flow.Flow
+import com.vjezba.data.db.entities.DBArticles
 
 @Dao
-interface NewsDao {
+interface ArticlesDao {
 
 //  @Query("SELECT * FROM news_table")
-//  fun getNews(): Flow<List<DBNews>>
+//  fun getNews(): Flow<List<DBArticles>>
 
-  @Query("SELECT * FROM news_table")
-  fun getNews(): List<DBNews>
+  @Query("SELECT * FROM articles_table")
+  fun getNews(): List<DBArticles>
 
   @Transaction
-  suspend fun updateNews(news: List<DBNews>) {
+  suspend fun updateNews(articles: List<DBArticles>) {
     clearNews()
-    insertAllNews(news)
+    insertAllNews(articles)
   }
 
   @Insert
-  suspend fun insertAllNews(news: List<DBNews>)
+  suspend fun insertAllNews(articles: List<DBArticles>)
 
-  @Query("DELETE FROM news_table")
+  @Query("DELETE FROM articles_table")
   suspend fun clearNews()
 
 }

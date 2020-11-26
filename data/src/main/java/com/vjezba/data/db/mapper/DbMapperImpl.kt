@@ -30,19 +30,18 @@
 
 package com.vjezba.data.db.mapper
 
-import com.vjezba.data.db.entities.DBNews
+import com.vjezba.data.db.entities.DBArticles
 import com.vjezba.data.model.ApiNews
-import com.vjezba.domain.entities.News
-import java.util.*
+import com.vjezba.domain.entities.Articles
 
 class DbMapperImpl : DbMapper {
 
 
-  override fun mapDomainNewsToDbNews(newsList: ApiNews): List<DBNews> {
+  override fun mapDomainNewsToDbNews(newsList: ApiNews): List<DBArticles> {
 
     return newsList.articles.map {
        with(it) {
-         DBNews(
+         DBArticles(
            id ?: 0,
            author,
            title,
@@ -54,6 +53,22 @@ class DbMapperImpl : DbMapper {
        }
     }
 
+  }
+
+  override fun mapDBArticlesToArticles(articlesList: List<DBArticles>): List<Articles> {
+    return articlesList.map {
+      with(it) {
+        Articles(
+          id,
+          author,
+          title,
+          description,
+          url,
+          urlToImage,
+          publishedAt
+        )
+      }
+    }
   }
 
 }

@@ -1,22 +1,20 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter
 
+import android.util.Log
 import com.vjezba.domain.GithubInteractor
 import com.vjezba.domain.usecase.GithubContract
 import kotlin.coroutines.CoroutineContext
 import com.vjezba.domain.Result
-import com.vjezba.domain.entities.RepositoryDetails
 import kotlinx.coroutines.*
 
-class RepositoryPresenter(private val githubInteractor: GithubInteractor) : GithubContract.RepositoryPresenter,
-    CoroutineScope {
+class RepositoryPresenter(private val githubInteractor: GithubInteractor) : GithubContract.RepositoryPresenter {
 
     var page: Int = 1
     var pageNumber: Int = 15
 
-    private var view: GithubContract.RepositoryView? = null
+    private val UPDATE_PERIOD = 10000L
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main
+    private var view: GithubContract.RepositoryView? = null
 
     private var job: Job? = null
 
@@ -29,10 +27,26 @@ class RepositoryPresenter(private val githubInteractor: GithubInteractor) : Gith
     }
 
     override fun getRepositories(repository: String, sort: String, order: String, showOtherData: Boolean) {
-        view?.showProgress()
-        job = launch(Dispatchers.IO) {
-            getRepositoriesAsync(repository, sort, order, showOtherData)
+
+        job?.cancel()
+        job = GlobalScope.launch(Dispatchers.Main) {
+            while (true) {
+                try {
+                    view?.showProgress()
+                    withContext(Dispatchers.IO) {
+                        Log.d("Da li ce uci sim", "Da li ce uci sim")
+                        getRepositoriesAsync(repository, sort, order, showOtherData)
+                    }
+                } catch (ex: Exception) {
+                    Log.e("Periodic remote failed", ex.toString())
+                }
+                delay(UPDATE_PERIOD)
+            }
         }
+
+//        job = launch(Dispatchers.IO) {
+//            getRepositoriesAsync(repository, sort, order, showOtherData)
+//        }
     }
 
     suspend fun getRepositoriesAsync(repository: String, sort: String, order: String, showOtherData: Boolean) {
@@ -63,6 +77,10 @@ class RepositoryPresenter(private val githubInteractor: GithubInteractor) : Gith
     override fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean) {
         if( !showOtherData )
             view?.clearAdapterThatHasOldSearchData()
+    }
+
+    override fun stopJobForGettingFreshNews() {
+        job?.cancel()
     }
 
 }

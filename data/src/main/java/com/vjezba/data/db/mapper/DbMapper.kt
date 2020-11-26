@@ -30,13 +30,16 @@
 
 package com.vjezba.data.db.mapper
 
-import com.vjezba.data.db.entities.DBNews
+import com.vjezba.data.db.entities.DBArticles
 import com.vjezba.data.model.ApiNews
-import com.vjezba.domain.entities.News
+import com.vjezba.domain.entities.Articles
 
 
 interface DbMapper {
 
-  fun mapDomainNewsToDbNews(newsList: ApiNews): List<DBNews>
+  fun mapDomainNewsToDbNews(newsList: ApiNews): List<DBArticles>
+
+
+  fun mapDBArticlesToArticles(articlesList: List<DBArticles>): List<Articles>
 
 }

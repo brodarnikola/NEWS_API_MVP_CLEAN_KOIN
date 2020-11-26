@@ -1,4 +1,4 @@
-package com.vjezba.mvpcleanarhitecturefactorynews.presentation
+package com.vjezba.mvpcleanarhitecturefactorynews.di
 
 import com.vjezba.domain.usecase.GithubContract
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.RepositoryDetailsPresenter

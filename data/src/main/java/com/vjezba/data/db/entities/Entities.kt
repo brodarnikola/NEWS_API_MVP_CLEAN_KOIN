@@ -34,8 +34,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "news_table")
-data class DBNews(
+@Entity(tableName = "articles_table")
+data class DBArticles(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val author: String,

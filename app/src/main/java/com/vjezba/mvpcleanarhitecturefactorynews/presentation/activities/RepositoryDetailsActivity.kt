@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.vjezba.domain.entities.RepositoryDetails
 import com.vjezba.domain.usecase.GithubContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.hide
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.show
+import com.vjezba.mvpcleanarhitecturefactorynews.hide
+import com.vjezba.mvpcleanarhitecturefactorynews.show
 import kotlinx.android.synthetic.main.activity_repository_details.*
 import kotlinx.android.synthetic.main.activity_repository_details.textUserName
 import org.koin.android.ext.android.inject

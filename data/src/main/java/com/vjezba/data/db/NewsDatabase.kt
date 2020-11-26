@@ -32,18 +32,18 @@ package com.vjezba.data.db
 
 import android.content.Context
 import androidx.room.Database
-import com.vjezba.data.db.dao.NewsDao
-import com.vjezba.data.db.entities.DBNews
+import com.vjezba.data.db.dao.ArticlesDao
+import com.vjezba.data.db.entities.DBArticles
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
 private const val DB_NAME = "news_database"
 
-@Database(entities = [DBNews::class], version = 1)
+@Database(entities = [DBArticles::class], version = 1)
 abstract class NewsDatabase : RoomDatabase() {
 
-  abstract fun newsDao(): NewsDao
+  abstract fun newsDao(): ArticlesDao
 
   companion object {
     fun create(context: Context): NewsDatabase {

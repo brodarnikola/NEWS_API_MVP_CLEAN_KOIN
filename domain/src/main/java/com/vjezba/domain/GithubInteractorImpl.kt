@@ -1,14 +1,11 @@
 package com.vjezba.domain
 
-import com.vjezba.domain.entities.MainResponse
-import com.vjezba.domain.entities.News
-import com.vjezba.domain.entities.Repository
-import com.vjezba.domain.entities.RepositoryDetails
+import com.vjezba.domain.entities.*
 
 
 class GithubInteractorImpl(private val githubRepository: GithubRepository) : GithubInteractor {
 
-    override suspend fun getRepositories(repository: String, sort: String, order: String, page: Int, pageNumber: Int): Result<News> {
+    override suspend fun getRepositories(repository: String, sort: String, order: String, page: Int, pageNumber: Int): Result<List<Articles>> {
         return  githubRepository.getRepositories(repository, sort, order, page, pageNumber)
     }
 

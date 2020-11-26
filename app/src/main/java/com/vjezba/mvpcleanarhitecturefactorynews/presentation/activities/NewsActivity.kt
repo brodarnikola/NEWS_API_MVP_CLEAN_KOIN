@@ -8,29 +8,20 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.vjezba.data.db.NewsDatabase
-import com.vjezba.data.db.dao.NewsDao
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.entities.News
 import com.vjezba.domain.entities.RepositoryOwnerDetails
 import com.vjezba.domain.usecase.GithubContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.`interface`.RepositorySearchInterface
+import com.vjezba.mvpcleanarhitecturefactorynews.hide
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.RepositoryAdapter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.dialog.DisableUserActionsDialog
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.hide
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.show
+import com.vjezba.mvpcleanarhitecturefactorynews.show
 import kotlinx.android.synthetic.main.activity_repositories.*
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import org.koin.android.ext.android.inject
 
-class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
-    RepositorySearchInterface {
+class NewsActivity : AppCompatActivity(), GithubContract.RepositoryView {
 
     private val githubPresenter: GithubContract.RepositoryPresenter by inject()
     private lateinit var repositoryAdapter: RepositoryAdapter
@@ -48,7 +39,7 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_repositories)
+        setContentView(R.layout.activity_news)
         githubPresenter.attachView( this )
         repositoryAdapter = RepositoryAdapter( mutableListOf<Articles>(),
             { userDetails: RepositoryOwnerDetails -> setUserDetailsClickListener(userDetails) },
@@ -58,34 +49,7 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
             adapter = repositoryAdapter
         }
 
-        startSearch("Kotlin", sort, order, false)
-
         disableUserActionDialog = DisableUserActionsDialog()
-        repository_list.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val totalItemCount = repositoryLayoutManager.itemCount
-                    val firstVisible = repositoryLayoutManager.findFirstVisibleItemPosition()
-                    if (!loading && repositoryLayoutManager.findLastCompletelyVisibleItemPosition() ==
-                        totalItemCount - 1 && firstVisible > 1) {
-                        loading = true
-
-                        disableUserActionDialog.isCancelable = false
-                        disableUserActionDialog.show( supportFragmentManager, "")
-                        try {
-                            lifecycleScope.launch() {
-                                withTimeout(20000) {
-                                    startSearch(keyword, sort, order, true)
-                                }
-                            }
-                        }
-                        catch (e: TimeoutCancellationException) {
-                            disableUserActionDialog.dismiss()
-                            Toast.makeText(this@RepositoriesActivity.baseContext, "Something went wrong, please try again", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            })
     }
 
     private fun setArticlesClickListener(Articles: Articles) {
@@ -105,16 +69,16 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
         startActivity(intent)
     }
 
-    override fun setRepository(repository: News) {
+    override fun setRepository(repository: List<Articles>) {
         hideKeyboard(window.decorView)
-        repositoryAdapter.setItems(repository.articles)
-        repositoryList.addAll(repository.articles)
+        repositoryAdapter.setItems(repository)
+        repositoryList.addAll(repository)
         loading = false
         if( disableUserActionDialog.isAdded || disableUserActionDialog.isVisible )
             disableUserActionDialog.dismiss()
 
-        print("aaa" + repository.articles.joinToString("-"))
-        System.out.println("BBBB" + repository.articles.joinToString("-"))
+        print("aaa" + repository.joinToString("-"))
+        System.out.println("BBBB" + repository.joinToString("-"))
     }
 
     override fun showMessage(message: String) {
@@ -132,16 +96,16 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
         progressBar.hide()
     }
 
-    override fun startSearch(mKeyword: String, mSort: String, mOrder: String, showOtherData: Boolean) {
+    /*override fun startSearch(mKeyword: String, mSort: String, mOrder: String, showOtherData: Boolean) {
         System.out.println("Keyword is: ${mKeyword}, sort is: ${mSort}, order is: ${mOrder}")
 
         keyword = mKeyword
         sort = mSort
         order = mOrder
- 
+
         githubPresenter.isNewSearchNewQueryForRepositoriesStarted(showOtherData)
         githubPresenter.getRepositories(keyword, sort, order, showOtherData)
-    }
+    }*/
 
     override fun clearAdapterThatHasOldSearchData() {
         repositoryAdapter.notifyItemRangeRemoved(0, repositoryAdapter.getItems().size)
@@ -152,6 +116,16 @@ class RepositoriesActivity : AppCompatActivity(), GithubContract.RepositoryView,
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        githubPresenter.getRepositories("Kotlin", sort, order, false)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        githubPresenter.stopJobForGettingFreshNews()
     }
 
     override fun onDestroy() {

@@ -1,5 +1,6 @@
 package com.vjezba.domain.usecase
 
+import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.entities.News
 import com.vjezba.domain.entities.Repository
 import com.vjezba.domain.entities.RepositoryDetails
@@ -12,7 +13,7 @@ interface GithubContract {
         fun showProgress()
         fun hideProgress()
         fun showMessage(message: String)
-        fun setRepository(repository: News)
+        fun setRepository(repository: List<Articles>)
         fun clearAdapterThatHasOldSearchData()
     }
 
@@ -21,6 +22,7 @@ interface GithubContract {
         fun deattachView(view: RepositoryView?)
         fun getRepositories(repository: String, sort: String, order: String, showOtherData: Boolean)
         fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean)
+        fun stopJobForGettingFreshNews()
     }
 
 

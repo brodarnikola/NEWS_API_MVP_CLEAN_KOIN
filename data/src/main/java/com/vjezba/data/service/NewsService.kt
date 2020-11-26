@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface NewsService {
 
-    @GET("articles?source=bbc-news&sortBy=top&apiKey=b0124155d6224507b85f340dcbf20df4")
+    @GET("articles?source=bbc-news&sortBy=top&apiKey=6e005ad0a1134ed89108da1fe290a141")
     @Headers("Content-Type: application/json")
     fun getRepositoryAsync(@Query("q") q: String, @Query("sort") sort: String, @Query("order") order: String,
                            @Query("page") page:Int, @Query("per_page") pageNumber: Int): Deferred<ApiNews>
