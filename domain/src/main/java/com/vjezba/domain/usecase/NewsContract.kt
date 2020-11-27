@@ -39,6 +39,8 @@ interface NewsContract {
     // repository details screen
     interface RepositoryDetailsView {
         fun displayRepositoryDetails( repositoryDetails: RepositoryDetails)
+
+        fun displayNewsDetails( newsDetails: List<Articles>)
         fun showMessage(message: String)
         fun showProgress()
         fun hideProgress()
@@ -47,6 +49,8 @@ interface NewsContract {
     interface RepositoryDetailsPresenter{
         fun attachView(view: RepositoryDetailsView)
         fun deattachView(view: RepositoryDetailsView?)
+        fun loadNewsFromRoom()
+
         fun loadRepositoryDetailsById( repositoryId: Long)
     }
 }

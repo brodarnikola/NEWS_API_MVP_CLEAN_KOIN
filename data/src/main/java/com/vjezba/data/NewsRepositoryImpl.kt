@@ -28,31 +28,22 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
             val mainResponseDAO = serviceProvider.getRepositoryAsync().await()
             val news = mainResponseDAO.mapToNewsDomain()
 
-            /// tu bih mogel gledati ako su mi podaci s servera prazni, ili ih nema,, onda idemo s baze podataka
-            // ako idem s baze podataka, onda si ih moram tak mapirati da mi paseju isto kao i podaci od rest api
-
-            // podaci s rest api
+            // data from rest api
             if( news.articles.isNotEmpty() ) {
                 dbNews.newsDao().updateNews(dbMapper.mapDomainNewsToDbNews(mainResponseDAO))
                 Log.d("Da li ce uci sim", "Da li ce uci sim. uspjesno dohvatili nove podatke s backenda")
                 Result.Success(news.articles)
             }
-            // podaci s baze podataka
+            // data from room
             else {
-                val test = dbNews.newsDao().getNews()
-                var test2 = dbMapper.mapDBArticlesToArticles(test)
+                val listDbArticles = dbNews.newsDao().getNews()
+                var listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
                 Log.d("Da li ce uci sim", "Da li ce uci sim. neuspjesnoo, nismo uspjeli dohvatiti nove podatke s backenda")
-                Result.Success(test2)
+                Result.Success(listArticles)
             }
-
-
-            // mogao bih si napraviti singleton uz pomoc:
-            // 1) object classe i provjeravati dal je proslo 5 minuta
-            // 2) uz pomoc singleton classe iz koin-a nekak
-
-
         }
         catch (e: UnknownHostException) {
+            // if user does not have network connection, then display old data from room, but only once
             if( !initDatabaseArticlesList.containsAll(dbNews.newsDao().getNews())  ) {
                 val listDbArticles = dbNews.newsDao().getNews()
                 val listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
@@ -67,6 +58,13 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
         catch (e: Throwable) {
             Result.Error(e)
         }
+    }
+
+    override suspend fun getNewsFromRoom(): Result<List<Articles>> {
+        val listDbArticles = dbNews.newsDao().getNews()
+        var listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
+        Log.d("Da li ce uci sim", "Da li ce uci sim. neuspjesnoo, nismo uspjeli dohvatiti nove podatke s backenda")
+        return Result.Success(listArticles)
     }
 
     override suspend fun getUserRepo(users: String): Result<MainResponse> {

@@ -9,6 +9,13 @@ class NewsInteractorImpl(private val newsRepository: NewsRepository) : NewsInter
         return  newsRepository.getRepositories()
     }
 
+    override suspend fun getNewsFromRoom(): Result<List<Articles>> {
+        return newsRepository.getNewsFromRoom()
+    }
+
+
+
+
     override suspend fun getUsers(userRepoString: String): Result<MainResponse> {
         return newsRepository.getUserRepo(userRepoString)
     }

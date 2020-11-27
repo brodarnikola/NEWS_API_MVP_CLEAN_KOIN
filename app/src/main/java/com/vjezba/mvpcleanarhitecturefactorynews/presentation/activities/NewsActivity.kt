@@ -39,7 +39,7 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
 
     private fun setArticlesClickListener(Articles: Articles) {
         val intent = Intent( this, RepositoryDetailsActivity::class.java )
-        intent.putExtra("idRepository", Articles.author.toInt())
+        intent.putExtra("newsTitle", Articles.title)
         startActivity(intent)
     }
 
