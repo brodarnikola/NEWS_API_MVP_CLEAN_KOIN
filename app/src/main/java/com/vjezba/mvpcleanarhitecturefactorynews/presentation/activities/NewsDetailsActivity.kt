@@ -2,15 +2,19 @@ package com.vjezba.mvpcleanarhitecturefactorynews.presentation.activities
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.IntroViewPagerFragment
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsDetailsRecyclerViewAdapter
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.PagerNewsDetailsDecorator
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.hide
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
 import kotlinx.android.synthetic.main.activity_news_details.*
@@ -49,6 +53,9 @@ class NewsDetailsActivity : AppCompatActivity(), NewsContract.NewsDetailsView {
 
         recylcerViewData.adapter = newDetailsRecyclerViewAdapter
 
+        PagerSnapHelper().attachToRecyclerView(recylcerViewData)
+        recylcerViewData.addItemDecoration(PagerNewsDetailsDecorator())
+
         setupFragmentProperties()
 
         radioGroupViewSelected.setOnCheckedChangeListener { radioGroup, checkedId ->
@@ -84,7 +91,6 @@ class NewsDetailsActivity : AppCompatActivity(), NewsContract.NewsDetailsView {
         if( !dataFetched )
             newsPresenter.loadNewsFromRoom()
     }
-
 
     override fun displayNewsDetails(newsDetails: List<Articles>) {
         dataFetched = true
