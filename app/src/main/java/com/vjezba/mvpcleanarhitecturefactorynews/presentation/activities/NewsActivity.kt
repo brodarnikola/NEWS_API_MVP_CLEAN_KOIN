@@ -1,12 +1,7 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.presentation.activities
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +10,7 @@ import com.vjezba.domain.entities.RepositoryOwnerDetails
 import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsAdapter
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.dialog.DisableUserActionsDialog
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.dialog.ErrorMessageDialog
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.hide
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
 import kotlinx.android.synthetic.main.activity_news.*
@@ -25,11 +20,9 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
 
     private val newsPresenter: NewsContract.NewsPresenter by inject()
     private lateinit var newsAdapter: NewsAdapter
-    val repositoryLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+    val newsLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-    var disableUserActionDialog: DisableUserActionsDialog = DisableUserActionsDialog()
-
-    val repositoryList: MutableList<Articles> = mutableListOf()
+    val newsList: MutableList<Articles> = mutableListOf()
 
     var loading = false
 
@@ -41,11 +34,9 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
             { userDetails: RepositoryOwnerDetails -> setUserDetailsClickListener(userDetails) },
             { Articles: Articles -> setArticlesClickListener( Articles ) }  )
         news_list.apply {
-            layoutManager = repositoryLayoutManager
+            layoutManager = newsLayoutManager
             adapter = newsAdapter
         }
-
-        disableUserActionDialog = DisableUserActionsDialog()
     }
 
     private fun setArticlesClickListener(Articles: Articles) {
@@ -65,23 +56,20 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
         startActivity(intent)
     }
 
-    override fun setNews(repository: List<Articles>) {
-        hideKeyboard(window.decorView)
-        newsAdapter.setItems(repository)
-        repositoryList.addAll(repository)
-        loading = false
-        if( disableUserActionDialog.isAdded || disableUserActionDialog.isVisible )
-            disableUserActionDialog.dismiss()
+    override fun setNews(articlesList: List<Articles>) {
 
-        print("aaa" + repository.joinToString("-"))
-        System.out.println("BBBB" + repository.joinToString("-"))
+        newsAdapter.setItems(articlesList)
+        newsList.addAll(articlesList)
+        loading = false
+
+        print("aaa" + articlesList.joinToString("-"))
+        System.out.println("BBBB" + articlesList.joinToString("-"))
     }
 
     override fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-        if( disableUserActionDialog.isAdded || disableUserActionDialog.isVisible )
-            disableUserActionDialog.dismiss()
         loading = false
+        val errorMessageDialog = ErrorMessageDialog( )
+        errorMessageDialog.show(supportFragmentManager, "")
     }
 
     override fun showProgress() {
@@ -95,12 +83,7 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
     override fun clearAdapterThatHasOldSearchData() {
         newsAdapter.notifyItemRangeRemoved(0, newsAdapter.getItems().size)
         newsAdapter.getItems().clear()
-        repositoryList.clear()
-    }
-
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        newsList.clear()
     }
 
     override fun onResume() {
