@@ -6,49 +6,47 @@ import com.vjezba.domain.usecase.NewsContract
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class RepositoryDetailsPresenter(private val newsInteractor: NewsInteractor) : NewsContract.RepositoryDetailsPresenter, CoroutineScope {
+class NewsDetailsPresenter(private val newsInteractor: NewsInteractor) :
+    NewsContract.NewsDetailsPresenter, CoroutineScope {
 
-    private var view: NewsContract.RepositoryDetailsView? = null
+    private var view: NewsContract.NewsDetailsView? = null
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
 
     private var job: Job? = null
 
-    override fun attachView(view: NewsContract.RepositoryDetailsView) {
+    override fun attachView(view: NewsContract.NewsDetailsView) {
         this.view = view
     }
 
-    override fun deattachView(view: NewsContract.RepositoryDetailsView?) {
+    override fun deattachView(view: NewsContract.NewsDetailsView?) {
         this.view = view
     }
 
     override fun loadNewsFromRoom() {
+        job?.cancel()
         job = launch {
             val result = newsInteractor.getNewsFromRoom()
             withContext(Dispatchers.Main) {
                 when (result) {
                     is Result.Success -> {
-                        withContext(Dispatchers.Main) {
-                            view?.hideProgress()
-                            view?.displayNewsDetails( result.data )
-                        }
+                        view?.hideProgress()
+                        view?.displayNewsDetails(result.data)
+
                     }
                     is Result.Error -> {
-                        withContext(Dispatchers.Main) {
-                            result.throwable.message?.let {
-                                view?.hideProgress()
-                                view?.showMessage(it)
-                            }
+                        result.throwable.message?.let {
+                            view?.hideProgress()
+                            view?.showMessage(it)
                         }
                     }
                 }
-
             }
         }
     }
 
-    override  fun loadRepositoryDetailsById(repositoryId: Long) {
+    /*override  fun loadRepositoryDetailsById(repositoryId: Long) {
         job = launch {
             getRepositoryDetails(repositoryId)
         }
@@ -66,6 +64,6 @@ class RepositoryDetailsPresenter(private val newsInteractor: NewsInteractor) : N
                 }
         }
         view?.hideProgress()
-    }
+    }*/
 
 }

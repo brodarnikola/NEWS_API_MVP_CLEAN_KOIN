@@ -29,7 +29,7 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
             val news = mainResponseDAO.mapToNewsDomain()
 
             // data from rest api
-            if( news.articles.isNotEmpty() ) {
+            if( news != null && news.articles.isNotEmpty() ) {
                 dbNews.newsDao().updateNews(dbMapper.mapDomainNewsToDbNews(mainResponseDAO))
                 Log.d("Da li ce uci sim", "Da li ce uci sim. uspjesno dohvatili nove podatke s backenda")
                 Result.Success(news.articles)
@@ -52,11 +52,21 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
                 Result.Success(listArticles)
             }
             else {
+                Log.d("Da li ce uci sim", "Da li ce uci sim. saljemo prazno listu")
                 Result.Success(listOf())
             }
         }
         catch (e: Throwable) {
-            Result.Error(e)
+            if( !initDatabaseArticlesList.containsAll(dbNews.newsDao().getNews())  ) {
+                val listDbArticles = dbNews.newsDao().getNews()
+                val listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
+                initDatabaseArticlesList.addAll(listDbArticles)
+                Log.d("Da li ce uci sim", "Da li ce uci sim. prikazujemo stare podatke od room, od nase baze podatakaa")
+                Result.Success(listArticles)
+            }
+            else {
+                Result.Error(e)
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.di
 
 import com.vjezba.domain.usecase.NewsContract
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.RepositoryDetailsPresenter
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.NewsDetailsPresenter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.NewsPresenter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.UsersPresenter
 import org.koin.dsl.module
@@ -28,10 +28,10 @@ val presentationModule = module {
     }
 
     factory {
-        val repositoryDetailsPresenter: NewsContract.RepositoryDetailsPresenter =
-            RepositoryDetailsPresenter(
+        val newsDetailsPresenter: NewsContract.NewsDetailsPresenter =
+            NewsDetailsPresenter(
                 get()
             )
-        repositoryDetailsPresenter
+        newsDetailsPresenter
     }
 }

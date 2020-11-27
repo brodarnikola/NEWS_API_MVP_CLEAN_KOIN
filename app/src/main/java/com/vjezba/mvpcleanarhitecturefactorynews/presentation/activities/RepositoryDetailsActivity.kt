@@ -23,11 +23,11 @@ class RepositoryDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        val position = intent.getIntExtra("listPosition", 0)
+
         val fragment = IntroViewPagerFragment()
         val bundle = Bundle()
-        bundle.putString("title", "aa")
-        bundle.putString("urlToImage", "bb")
-        bundle.putString("description", "cc")
+        bundle.putInt("listPosition",  position)
         fragment.setArguments(bundle)
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentData, fragment).commit()

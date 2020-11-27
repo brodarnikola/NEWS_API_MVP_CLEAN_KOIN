@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.news_list.view.*
 
 class NewsAdapter(var articlesList: MutableList<Articles>,
                   val userDetailsClickListener: (RepositoryOwnerDetails) -> Unit,
-                  val ArticlesClickListener: (Articles) -> Unit )
+                  val ArticlesClickListener: (Int) -> Unit )
     : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,10 +32,10 @@ class NewsAdapter(var articlesList: MutableList<Articles>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        bindItem(holder, articlesList[position])
+        bindItem(holder, articlesList[position], position)
     }
 
-    private fun bindItem(holder: ViewHolder, article: Articles) {
+    private fun bindItem(holder: ViewHolder, article: Articles, position: Int) {
 
         Glide.with(holder.itemView)
             .load(article.urlToImage)
@@ -51,7 +51,7 @@ class NewsAdapter(var articlesList: MutableList<Articles>,
         }
 
         holder.layoutParent.setOnClickListener{
-            ArticlesClickListener(article)
+            ArticlesClickListener(position)
         }
     }
 
