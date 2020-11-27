@@ -21,7 +21,7 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
 
     override suspend fun getRepositories(): Result<List<Articles>> {
         return try {
-            val mainResponseDAO = serviceProvider.getRepositoryAsync().await()
+            val mainResponseDAO = serviceProvider.getNewsFromRestApi().await()
             val news = mainResponseDAO.mapToNewsDomain()
 
             // data from rest api
