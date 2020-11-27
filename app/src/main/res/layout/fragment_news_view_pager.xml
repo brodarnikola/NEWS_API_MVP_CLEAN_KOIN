@@ -22,8 +22,7 @@
             app:tabPaddingStart="64dp"
             app:tabPaddingEnd="64dp"
             app:tabIndicatorHeight="0dp"
-            android:layout_gravity="bottom"
-    />
+            android:layout_gravity="bottom" />
 
     <ProgressBar
         android:id="@+id/progressBar"
