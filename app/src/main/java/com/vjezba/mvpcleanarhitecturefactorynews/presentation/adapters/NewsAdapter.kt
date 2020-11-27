@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.entities.RepositoryOwnerDetails
 import com.vjezba.mvpcleanarhitecturefactorynews.R
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.common.ListDiffer
 import kotlinx.android.synthetic.main.news_list.view.*
 
 class NewsAdapter(var articlesList: MutableList<Articles>,
@@ -53,40 +52,6 @@ class NewsAdapter(var articlesList: MutableList<Articles>,
 
         holder.layoutParent.setOnClickListener{
             ArticlesClickListener(article)
-        }
-    }
-
-    fun updateDevices(updatedDevices: List<Articles>) {
-        val listDiff = ListDiffer.getDiff(
-            articlesList,
-            updatedDevices,
-            { old, new ->
-                        old.author == new.author &&
-                        old.title == new.title &&
-                        old.description == new.description &&
-                        old.url == new.url &&
-                        old.urlToImage == new.urlToImage &&
-                        old.publishedAt == new.publishedAt
-            })
-
-        for (diff in listDiff) {
-            when (diff) {
-                is ListDiffer.DiffInserted -> {
-                    articlesList.addAll(diff.elements)
-                    notifyItemRangeInserted(diff.position, diff.elements.size)
-                }
-                is ListDiffer.DiffRemoved -> {
-                    //remove devices
-                    for (i in (articlesList.size - 1) downTo diff.position) {
-                        articlesList.removeAt(i)
-                    }
-                    notifyItemRangeRemoved(diff.position, diff.count)
-                }
-                is ListDiffer.DiffChanged -> {
-                    articlesList[diff.position] = diff.newElement
-                    notifyItemChanged(diff.position)
-                }
-            }
         }
     }
 

@@ -24,8 +24,6 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
 
     val newsList: MutableList<Articles> = mutableListOf()
 
-    var loading = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
@@ -60,14 +58,12 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
 
         newsAdapter.setItems(articlesList)
         newsList.addAll(articlesList)
-        loading = false
 
         print("aaa" + articlesList.joinToString("-"))
         System.out.println("BBBB" + articlesList.joinToString("-"))
     }
 
     override fun showMessage(message: String) {
-        loading = false
         val errorMessageDialog = ErrorMessageDialog( )
         errorMessageDialog.show(supportFragmentManager, "")
     }
