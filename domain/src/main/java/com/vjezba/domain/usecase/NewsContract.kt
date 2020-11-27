@@ -1,26 +1,24 @@
 package com.vjezba.domain.usecase
 
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.entities.News
-import com.vjezba.domain.entities.Repository
 import com.vjezba.domain.entities.RepositoryDetails
 
 
-interface GithubContract {
+interface NewsContract {
 
     // repositories screen
-    interface RepositoryView {
+    interface NewsView {
         fun showProgress()
         fun hideProgress()
         fun showMessage(message: String)
-        fun setRepository(repository: List<Articles>)
+        fun setNews(repository: List<Articles>)
         fun clearAdapterThatHasOldSearchData()
     }
 
-    interface RepositoryPresenter{
-        fun attachView(view: RepositoryView)
-        fun deattachView(view: RepositoryView?)
-        fun getRepositories(repository: String, sort: String, order: String, showOtherData: Boolean)
+    interface NewsPresenter{
+        fun attachView(view: NewsView)
+        fun deattachView(view: NewsView?)
+        fun getNews(showOtherData: Boolean)
         fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean)
         fun stopJobForGettingFreshNews()
     }

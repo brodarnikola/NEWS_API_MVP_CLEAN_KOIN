@@ -7,8 +7,8 @@ val coreModule = module {
 
     // it provides a bean definition, which will create a new instance each time it is injected.
     factory {
-        val githubInteractor: GithubInteractor =
-            GithubInteractorImpl(get())
-        githubInteractor
+        val newsInteractor: NewsInteractor =
+            NewsInteractorImpl(get())
+        newsInteractor
     }
 }

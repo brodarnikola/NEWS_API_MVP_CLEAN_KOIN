@@ -1,17 +1,17 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter
 
-import com.vjezba.domain.GithubInteractor
-import com.vjezba.domain.usecase.GithubContract
+import com.vjezba.domain.NewsInteractor
+import com.vjezba.domain.usecase.NewsContract
 
-class UsersPresenter(private val githubInteractor: GithubInteractor) : GithubContract.UserPresenter  {
+class UsersPresenter(private val newsInteractor: NewsInteractor) : NewsContract.UserPresenter  {
 
-    private var view: GithubContract.UserView? = null
+    private var view: NewsContract.UserView? = null
 
-    override fun attachView(view: GithubContract.UserView) {
+    override fun attachView(view: NewsContract.UserView) {
         this.view = view
     }
 
-    override fun deattachView(view: GithubContract.UserView?) {
+    override fun deattachView(view: NewsContract.UserView?) {
         this.view = view
     }
 

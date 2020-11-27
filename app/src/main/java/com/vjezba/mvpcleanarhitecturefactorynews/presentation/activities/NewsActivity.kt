@@ -12,19 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.entities.RepositoryOwnerDetails
-import com.vjezba.domain.usecase.GithubContract
+import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
-import com.vjezba.mvpcleanarhitecturefactorynews.hide
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.RepositoryAdapter
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsAdapter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.dialog.DisableUserActionsDialog
-import com.vjezba.mvpcleanarhitecturefactorynews.show
-import kotlinx.android.synthetic.main.activity_repositories.*
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.hide
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
+import kotlinx.android.synthetic.main.activity_news.*
 import org.koin.android.ext.android.inject
 
-class NewsActivity : AppCompatActivity(), GithubContract.RepositoryView {
+class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
 
-    private val githubPresenter: GithubContract.RepositoryPresenter by inject()
-    private lateinit var repositoryAdapter: RepositoryAdapter
+    private val newsPresenter: NewsContract.NewsPresenter by inject()
+    private lateinit var newsAdapter: NewsAdapter
     val repositoryLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
     var disableUserActionDialog: DisableUserActionsDialog = DisableUserActionsDialog()
@@ -33,20 +33,16 @@ class NewsActivity : AppCompatActivity(), GithubContract.RepositoryView {
 
     var loading = false
 
-    var keyword: String = "Kotlin"
-    var sort: String = ""
-    var order: String = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
-        githubPresenter.attachView( this )
-        repositoryAdapter = RepositoryAdapter( mutableListOf<Articles>(),
+        newsPresenter.attachView( this )
+        newsAdapter = NewsAdapter( mutableListOf<Articles>(),
             { userDetails: RepositoryOwnerDetails -> setUserDetailsClickListener(userDetails) },
             { Articles: Articles -> setArticlesClickListener( Articles ) }  )
-        repository_list.apply {
+        news_list.apply {
             layoutManager = repositoryLayoutManager
-            adapter = repositoryAdapter
+            adapter = newsAdapter
         }
 
         disableUserActionDialog = DisableUserActionsDialog()
@@ -69,9 +65,9 @@ class NewsActivity : AppCompatActivity(), GithubContract.RepositoryView {
         startActivity(intent)
     }
 
-    override fun setRepository(repository: List<Articles>) {
+    override fun setNews(repository: List<Articles>) {
         hideKeyboard(window.decorView)
-        repositoryAdapter.setItems(repository)
+        newsAdapter.setItems(repository)
         repositoryList.addAll(repository)
         loading = false
         if( disableUserActionDialog.isAdded || disableUserActionDialog.isVisible )
@@ -96,20 +92,9 @@ class NewsActivity : AppCompatActivity(), GithubContract.RepositoryView {
         progressBar.hide()
     }
 
-    /*override fun startSearch(mKeyword: String, mSort: String, mOrder: String, showOtherData: Boolean) {
-        System.out.println("Keyword is: ${mKeyword}, sort is: ${mSort}, order is: ${mOrder}")
-
-        keyword = mKeyword
-        sort = mSort
-        order = mOrder
-
-        githubPresenter.isNewSearchNewQueryForRepositoriesStarted(showOtherData)
-        githubPresenter.getRepositories(keyword, sort, order, showOtherData)
-    }*/
-
     override fun clearAdapterThatHasOldSearchData() {
-        repositoryAdapter.notifyItemRangeRemoved(0, repositoryAdapter.getItems().size)
-        repositoryAdapter.getItems().clear()
+        newsAdapter.notifyItemRangeRemoved(0, newsAdapter.getItems().size)
+        newsAdapter.getItems().clear()
         repositoryList.clear()
     }
 
@@ -120,17 +105,17 @@ class NewsActivity : AppCompatActivity(), GithubContract.RepositoryView {
 
     override fun onResume() {
         super.onResume()
-        githubPresenter.getRepositories("Kotlin", sort, order, false)
+        newsPresenter.getNews(false)
     }
 
     override fun onPause() {
         super.onPause()
-        githubPresenter.stopJobForGettingFreshNews()
+        newsPresenter.stopJobForGettingFreshNews()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        githubPresenter.deattachView(null)
+        newsPresenter.deattachView(null)
     }
 
 }

@@ -6,29 +6,29 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.vjezba.domain.entities.RepositoryDetails
-import com.vjezba.domain.usecase.GithubContract
+import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
-import com.vjezba.mvpcleanarhitecturefactorynews.hide
-import com.vjezba.mvpcleanarhitecturefactorynews.show
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.hide
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
 import kotlinx.android.synthetic.main.activity_repository_details.*
 import kotlinx.android.synthetic.main.activity_repository_details.textUserName
 import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RepositoryDetailsActivity : AppCompatActivity(), GithubContract.RepositoryDetailsView {
+class RepositoryDetailsActivity : AppCompatActivity(), NewsContract.RepositoryDetailsView {
 
     var idRepository = 0L
 
-    private val githubPresenter: GithubContract.RepositoryDetailsPresenter by inject()
+    private val newsPresenter: NewsContract.RepositoryDetailsPresenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository_details)
-        githubPresenter.attachView( this )
+        newsPresenter.attachView( this )
 
         idRepository = intent.getLongExtra("idRepository", 0)
-        githubPresenter.loadRepositoryDetailsById(idRepository)
+        newsPresenter.loadRepositoryDetailsById(idRepository)
     }
 
     override fun displayRepositoryDetails(repositoryDetails: RepositoryDetails) {
@@ -86,6 +86,6 @@ class RepositoryDetailsActivity : AppCompatActivity(), GithubContract.Repository
 
     override fun onDestroy() {
         super.onDestroy()
-        githubPresenter.deattachView(null)
+        newsPresenter.deattachView(null)
     }
 }

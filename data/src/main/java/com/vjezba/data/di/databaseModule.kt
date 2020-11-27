@@ -1,10 +1,8 @@
 package com.vjezba.data.di
 
-import com.vjezba.data.GithubRepositoryImpl
 import com.vjezba.data.db.NewsDatabase
 import com.vjezba.data.db.mapper.DbMapper
 import com.vjezba.data.db.mapper.DbMapperImpl
-import com.vjezba.domain.GithubRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

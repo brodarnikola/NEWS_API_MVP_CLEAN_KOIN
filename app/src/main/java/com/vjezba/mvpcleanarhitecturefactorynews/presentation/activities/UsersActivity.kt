@@ -6,13 +6,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.vjezba.domain.usecase.GithubContract
+import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import kotlinx.android.synthetic.main.activity_user_details.*
 import org.koin.android.ext.android.inject
 
 
-class UsersActivity : AppCompatActivity(), GithubContract.UserView  {
+class UsersActivity : AppCompatActivity(), NewsContract.UserView  {
 
     var login = ""
     var avatarUrl = ""
@@ -21,12 +21,12 @@ class UsersActivity : AppCompatActivity(), GithubContract.UserView  {
     var siteAdmin = false
     var html_url = ""
 
-    private val githubPresenter: GithubContract.UserPresenter by inject()
+    private val newsPresenter: NewsContract.UserPresenter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_details)
-        githubPresenter.attachView( this )
+        newsPresenter.attachView( this )
 
         login = intent.getStringExtra("login")
         avatarUrl = intent.getStringExtra("avatar_url")
@@ -50,11 +50,11 @@ class UsersActivity : AppCompatActivity(), GithubContract.UserView  {
         texUserLink.text = "Link to see details about this user: "  + html_url
 
         texUserLink.setOnClickListener {
-            githubPresenter.startToDisplayUserDetailsInBrowser( html_url)
+            newsPresenter.startToDisplayUserDetailsInBrowser( html_url)
         }
 
         textReposUrl.setOnClickListener {
-            githubPresenter.startToDisplayUserDetailsInBrowser( reposUrl)
+            newsPresenter.startToDisplayUserDetailsInBrowser( reposUrl)
         }
     }
 
@@ -66,7 +66,7 @@ class UsersActivity : AppCompatActivity(), GithubContract.UserView  {
 
     override fun onDestroy() {
         super.onDestroy()
-        githubPresenter.deattachView(null)
+        newsPresenter.deattachView(null)
     }
 
 

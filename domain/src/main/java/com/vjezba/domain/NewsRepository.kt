@@ -3,9 +3,9 @@ package com.vjezba.domain
 import com.vjezba.domain.entities.*
 
 
-interface GithubRepository {
+interface NewsRepository {
 
-    suspend fun getRepositories(repository: String, sort: String, order: String, page: Int, pageNumber: Int): Result<List<Articles>>
+    suspend fun getRepositories(): Result<List<Articles>>
 
     suspend fun getUserRepo(userRepoString: String): Result<MainResponse>
 

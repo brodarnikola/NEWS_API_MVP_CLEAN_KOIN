@@ -1,8 +1,8 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.di
 
-import com.vjezba.domain.usecase.GithubContract
+import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.RepositoryDetailsPresenter
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.RepositoryPresenter
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.NewsPresenter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.UsersPresenter
 import org.koin.dsl.module
 
@@ -11,16 +11,16 @@ val presentationModule = module {
 
     // it provides a bean definition, which will create a new instance each time it is injected.
     factory {
-        val repositoryPresenter: GithubContract.RepositoryPresenter =
-            RepositoryPresenter(
+        val newsPresenter: NewsContract.NewsPresenter =
+            NewsPresenter(
                 //it is used in the constructor of a class to provide the required dependency.
                 get()
             )
-        repositoryPresenter
+        newsPresenter
     }
 
     factory {
-        val userDetailsPresenter: GithubContract.UserPresenter =
+        val userDetailsPresenter: NewsContract.UserPresenter =
             UsersPresenter(
                 get()
             )
@@ -28,7 +28,7 @@ val presentationModule = module {
     }
 
     factory {
-        val repositoryDetailsPresenter: GithubContract.RepositoryDetailsPresenter =
+        val repositoryDetailsPresenter: NewsContract.RepositoryDetailsPresenter =
             RepositoryDetailsPresenter(
                 get()
             )

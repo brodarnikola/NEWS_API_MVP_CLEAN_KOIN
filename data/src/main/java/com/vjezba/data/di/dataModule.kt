@@ -1,10 +1,10 @@
 package com.vjezba.data.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.vjezba.data.GithubRepositoryImpl
+import com.vjezba.data.NewsRepositoryImpl
 import com.vjezba.data.environments.Constants
 import com.vjezba.data.service.NewsService
-import com.vjezba.domain.GithubRepository
+import com.vjezba.domain.NewsRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -46,9 +46,9 @@ val dataModule = module {
     single { get<Retrofit>().create(NewsService::class.java) }
 
     factory {
-        val githubRepository: GithubRepository =
-            GithubRepositoryImpl(get(), get(), get())
-        githubRepository
+        val newsRepository: NewsRepository =
+            NewsRepositoryImpl(get(), get(), get())
+        newsRepository
     }
 
 }

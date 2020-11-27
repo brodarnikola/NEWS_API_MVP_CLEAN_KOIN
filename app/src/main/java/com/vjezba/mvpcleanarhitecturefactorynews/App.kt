@@ -24,11 +24,4 @@ class App : Application() {
     }
 }
 
-fun View.hide() {
-    this.visibility = View.GONE
-}
-
-fun View.show() {
-    this.visibility = View.VISIBLE
-}
 
