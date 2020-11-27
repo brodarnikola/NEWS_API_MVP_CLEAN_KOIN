@@ -9,11 +9,4 @@ interface NewsInteractor {
 
     suspend fun getNewsFromRoom(): Result<List<Articles>>
 
-
-
-
-    suspend fun getUsers(userRepoString: String): Result<MainResponse>
-
-    suspend fun getRepositoryDetails(repositoryId: Long): Result<RepositoryDetails>
-
 }

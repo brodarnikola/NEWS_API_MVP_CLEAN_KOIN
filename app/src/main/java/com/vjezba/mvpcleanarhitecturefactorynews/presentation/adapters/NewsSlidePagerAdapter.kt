@@ -3,8 +3,8 @@ package com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.vjezba.domain.entities.Articles
 import com.vjezba.mvpcleanarhitecturefactorynews.INTRO_STRING_OBJECT
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.fragments.ViewPagerContentFragment
 
 class NewsSlidePagerAdapter(
     fragment: Fragment,
@@ -16,7 +16,8 @@ class NewsSlidePagerAdapter(
     override fun getItemCount(): Int = mPageNumbers
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = ViewPagerContentFragment()
+        val fragment =
+            ViewPagerContentFragment()
 
         fragment.arguments = Bundle().apply {
             putStringArray(INTRO_STRING_OBJECT, listOfPagerContents[position])

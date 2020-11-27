@@ -5,16 +5,12 @@ import android.util.Log
 import com.vjezba.data.db.NewsDatabase
 import com.vjezba.data.db.entities.DBArticles
 import com.vjezba.data.db.mapper.DbMapper
-import com.vjezba.data.model.mapToMainReponse
 import com.vjezba.data.model.mapToNewsDomain
-import com.vjezba.data.model.mapToRepositoryDetails
 import com.vjezba.data.service.NewsService
 import com.vjezba.domain.NewsRepository
-import com.vjezba.domain.entities.MainResponse
 
 import com.vjezba.domain.Result
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.entities.RepositoryDetails
 import java.net.UnknownHostException
 
 class NewsRepositoryImpl(private val serviceProvider: NewsService, private val dbNews: NewsDatabase,
@@ -31,7 +27,7 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
             // data from rest api
             if( news != null && news.articles.isNotEmpty() ) {
                 dbNews.newsDao().updateNews(dbMapper.mapDomainNewsToDbNews(mainResponseDAO))
-                Log.d("Da li ce uci sim", "Da li ce uci sim. uspjesno dohvatili nove podatke s backenda")
+                Log.d("Da li ce uci sim", "Da li ce uci sim. uspjesno dohvatili nove podatke s rest api")
                 Result.Success(news.articles)
             }
             // data from room
@@ -75,26 +71,6 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
         var listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
         Log.d("Da li ce uci sim", "Da li ce uci sim. neuspjesnoo, nismo uspjeli dohvatiti nove podatke s backenda")
         return Result.Success(listArticles)
-    }
-
-    override suspend fun getUserRepo(users: String): Result<MainResponse> {
-        return try {
-            val mainResponseDAO = serviceProvider.getUserRepoAsync(users, 0, 100).await()
-            val users = mainResponseDAO.mapToMainReponse()
-            Result.Success(users)
-        } catch (e: Throwable) {
-            Result.Error(e)
-        }
-    }
-
-    override suspend fun getRepositoryDetails(repositoryId: Long): Result<RepositoryDetails> {
-        return try {
-            val repositoryDetailsDAO = serviceProvider.getRepositoryDetailsAsync(repositoryId).await()
-            val users = repositoryDetailsDAO.mapToRepositoryDetails()//.map { it.mapToMainReponse() }
-            Result.Success(users)
-        } catch (e: Throwable) {
-            Result.Error(e)
-        }
     }
 
 

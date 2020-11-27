@@ -10,5 +10,4 @@ data class Articles(
     val urlToImage: String = "",
     val publishedAt: String? = "" ) {
 
-
 }

@@ -1,4 +1,4 @@
-package com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters
+package com.vjezba.mvpcleanarhitecturefactorynews.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vjezba.mvpcleanarhitecturefactorynews.INTRO_STRING_OBJECT
 import com.vjezba.mvpcleanarhitecturefactorynews.R
-import kotlinx.android.synthetic.main.activity_user_details.tvTitle
+import kotlinx.android.synthetic.main.activity_news_details.tvTitle
 import kotlinx.android.synthetic.main.news_view_pager_content.*
 
 class ViewPagerContentFragment : Fragment() {

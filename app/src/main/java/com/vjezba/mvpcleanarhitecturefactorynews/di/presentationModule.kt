@@ -3,7 +3,6 @@ package com.vjezba.mvpcleanarhitecturefactorynews.di
 import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.NewsDetailsPresenter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.NewsPresenter
-import com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter.UsersPresenter
 import org.koin.dsl.module
 
 //it creates a module in Koin which would be used by Koin to provide all the dependencies.
@@ -17,14 +16,6 @@ val presentationModule = module {
                 get()
             )
         newsPresenter
-    }
-
-    factory {
-        val userDetailsPresenter: NewsContract.UserPresenter =
-            UsersPresenter(
-                get()
-            )
-        userDetailsPresenter
     }
 
     factory {

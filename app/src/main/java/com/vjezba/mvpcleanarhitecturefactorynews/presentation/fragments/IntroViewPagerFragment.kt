@@ -1,4 +1,4 @@
-package com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters
+package com.vjezba.mvpcleanarhitecturefactorynews.presentation.fragments
 
 
 import android.os.Bundle
@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsSlidePagerAdapter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.hide
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
 import kotlinx.android.synthetic.main.fragment_news_view_pager.*
@@ -58,7 +59,11 @@ class IntroViewPagerFragment : Fragment(), NewsContract.NewsDetailsView {
     override fun displayNewsDetails(newsDetails: List<Articles>) {
 
         val pagerAdapter =
-            NewsSlidePagerAdapter(this, getListOfNewsPagerContents(newsDetails), newsDetails.size)
+            NewsSlidePagerAdapter(
+                this,
+                getListOfNewsPagerContents(newsDetails),
+                newsDetails.size
+            )
         news_pager.adapter = pagerAdapter
 
         Handler().postDelayed({

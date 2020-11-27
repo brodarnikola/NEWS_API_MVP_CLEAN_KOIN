@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.entities.RepositoryOwnerDetails
 import com.vjezba.domain.usecase.NewsContract
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsAdapter
@@ -30,7 +29,6 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
         newsPresenter.attachView( this )
 
         newsAdapter = NewsAdapter( mutableListOf<Articles>(),
-            { userDetails: RepositoryOwnerDetails -> setUserDetailsClickListener(userDetails) },
             { position: Int -> setArticlesClickListener( position ) }  )
 
         news_list.apply {
@@ -42,17 +40,6 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
     private fun setArticlesClickListener( position: Int) {
         val intent = Intent( this, NewsDetailsActivity::class.java )
         intent.putExtra("listPosition", position)
-        startActivity(intent)
-    }
-
-    private fun setUserDetailsClickListener(userDetails: RepositoryOwnerDetails) {
-        val intent = Intent( this, UsersActivity::class.java )
-        intent.putExtra("login", userDetails.login)
-        intent.putExtra("avatar_url", userDetails.avatar_url)
-        intent.putExtra("repos_url", userDetails.repos_url)
-        intent.putExtra("followers_url", userDetails.followers_url)
-        intent.putExtra("site_admin", userDetails.site_admin)
-        intent.putExtra("html_url", userDetails.html_url)
         startActivity(intent)
     }
 

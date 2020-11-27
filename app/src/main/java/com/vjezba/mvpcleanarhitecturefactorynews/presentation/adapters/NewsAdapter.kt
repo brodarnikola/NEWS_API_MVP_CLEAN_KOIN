@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.entities.RepositoryOwnerDetails
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import kotlinx.android.synthetic.main.news_list.view.*
 
 class NewsAdapter(var articlesList: MutableList<Articles>,
-                  val userDetailsClickListener: (RepositoryOwnerDetails) -> Unit,
                   val ArticlesClickListener: (Int) -> Unit )
     : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
@@ -45,10 +43,6 @@ class NewsAdapter(var articlesList: MutableList<Articles>,
             .into(holder.photo)
 
         holder.title.text = "Name: " + article.title
-
-        holder.photo.setOnClickListener{
-            userDetailsClickListener(RepositoryOwnerDetails("", "", "", "", "", false))
-        }
 
         holder.layoutParent.setOnClickListener{
             ArticlesClickListener(position)
