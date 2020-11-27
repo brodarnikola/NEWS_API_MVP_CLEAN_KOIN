@@ -28,7 +28,8 @@ class NewsDetailsActivity : AppCompatActivity(), NewsContract.NewsDetailsView {
 
     private var newDetailsRecyclerViewAdapter: NewsDetailsRecyclerViewAdapter =
         NewsDetailsRecyclerViewAdapter(
-            mutableListOf() )
+            mutableListOf(),
+        this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +99,7 @@ class NewsDetailsActivity : AppCompatActivity(), NewsContract.NewsDetailsView {
         dataFetched = true
 
         newDetailsRecyclerViewAdapter.updateDevices(newsDetails.toMutableList())
+        recylcerViewData.scrollToPosition(position)
     }
 
     override fun showMessage(message: String) {

@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vjezba.domain.entities.Articles
+import com.vjezba.mvpcleanarhitecturefactorynews.INTRO_STRING_OBJECT
 import com.vjezba.mvpcleanarhitecturefactorynews.R
+import com.vjezba.mvpcleanarhitecturefactorynews.presentation.activities.NewsDetailsActivity
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.common.ListDiffer
+import kotlinx.android.synthetic.main.activity_news_details.*
 import kotlinx.android.synthetic.main.news_details_recyclerview_list.view.*
 
-class NewsDetailsRecyclerViewAdapter(var articlesList: MutableList<Articles> )
+class NewsDetailsRecyclerViewAdapter(var articlesList: MutableList<Articles>, val newsDetailsActivity: NewsDetailsActivity )
     : RecyclerView.Adapter<NewsDetailsRecyclerViewAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -83,6 +86,8 @@ class NewsDetailsRecyclerViewAdapter(var articlesList: MutableList<Articles> )
 
         holder.newsTitle.text = "Name: " + article.title
         holder.newsDescription.text = "Name: " + article.description
+
+        newsDetailsActivity.tvTitle?.text = article.title
     }
 
     override fun getItemCount(): Int {
