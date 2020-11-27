@@ -39,20 +39,8 @@ class ViewPagerContentFragment : Fragment() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivNewsPicture)
             newsDescription.text = getStringArray(INTRO_STRING_OBJECT)!![2]
-            //changeColor(getStringArray(INTRO_STRING_OBJECT)!![2])
         }
 
     }
 
-    fun changeColor(color:String){
-        when(color)
-        {
-            "R" ->
-                base_layout.setBackgroundColor(resources.getColor(android.R.color.holo_red_light))
-            "B" ->
-                base_layout.setBackgroundColor(resources.getColor(android.R.color.holo_blue_dark))
-            "G" ->
-                base_layout.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark))
-        }
-    }
 }

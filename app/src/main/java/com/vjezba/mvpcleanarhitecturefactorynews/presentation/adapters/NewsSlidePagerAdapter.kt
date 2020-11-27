@@ -21,21 +21,6 @@ class NewsSlidePagerAdapter(
         fragment.arguments = Bundle().apply {
             putStringArray(INTRO_STRING_OBJECT, listOfPagerContents[position])
         }
-
-       /* when(position){
-            0 ->
-                fragment.arguments = Bundle().apply {
-                    putStringArray(INTRO_STRING_OBJECT, listOfPagerContents[0])
-                }
-            1 ->
-                fragment.arguments = Bundle().apply {
-                    putStringArray(INTRO_STRING_OBJECT, listOfPagerContents[1])
-                }
-            2 ->
-                fragment.arguments = Bundle().apply {
-                    putStringArray(INTRO_STRING_OBJECT, listOfPagerContents[2])
-                }
-        }*/
         return fragment
     }
 }
