@@ -15,7 +15,6 @@ import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.hide
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
 import kotlinx.android.synthetic.main.activity_news.*
 import org.koin.android.ext.android.inject
-import java.text.FieldPosition
 
 class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
 
@@ -41,7 +40,7 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
     }
 
     private fun setArticlesClickListener( position: Int) {
-        val intent = Intent( this, RepositoryDetailsActivity::class.java )
+        val intent = Intent( this, NewsDetailsActivity::class.java )
         intent.putExtra("listPosition", position)
         startActivity(intent)
     }

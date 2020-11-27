@@ -9,8 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vjezba.mvpcleanarhitecturefactorynews.INTRO_STRING_OBJECT
 import com.vjezba.mvpcleanarhitecturefactorynews.R
-import kotlinx.android.synthetic.main.activity_repository_details.*
-import kotlinx.android.synthetic.main.activity_user_details.*
 import kotlinx.android.synthetic.main.activity_user_details.tvTitle
 import kotlinx.android.synthetic.main.news_view_pager_content.*
 

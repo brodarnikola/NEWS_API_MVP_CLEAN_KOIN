@@ -1,18 +1,17 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.presentation.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.IntroViewPagerFragment
-import kotlinx.android.synthetic.main.activity_repository_details.*
+import kotlinx.android.synthetic.main.activity_news_details.*
 
-class RepositoryDetailsActivity : AppCompatActivity() {
+class NewsDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_repository_details)
+        setContentView(R.layout.activity_news_details)
     }
 
     override fun onStart() {
