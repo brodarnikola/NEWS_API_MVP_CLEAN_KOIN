@@ -11,14 +11,14 @@ interface NewsContract {
         fun hideProgress()
         fun showMessage(message: String)
         fun setNews(articles: List<Articles>)
-        fun clearAdapterThatHasOldSearchData()
+        fun clearAdapterThatHasOldData()
     }
 
     interface NewsPresenter{
         fun attachView(view: NewsView)
         fun deattachView(view: NewsView?)
-        fun getNews(showOtherData: Boolean)
-        fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean)
+        fun getNews(deleteOldAdapterData: Boolean)
+        //fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean)
         fun stopJobForGettingFreshNews()
     }
 

@@ -65,7 +65,7 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
         progressBar.hide()
     }
 
-    override fun clearAdapterThatHasOldSearchData() {
+    override fun clearAdapterThatHasOldData() {
         newsAdapter.notifyItemRangeRemoved(0, newsAdapter.getItems().size)
         newsAdapter.getItems().clear()
         newsList.clear()
@@ -73,7 +73,12 @@ class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
 
     override fun onResume() {
         super.onResume()
-        newsPresenter.getNews(false)
+        if( newsAdapter.getItems().isNotEmpty() ) {
+            newsPresenter.getNews(true)
+        }
+        else {
+            newsPresenter.getNews(false)
+        }
     }
 
     override fun onPause() {

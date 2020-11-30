@@ -9,9 +9,6 @@ import kotlinx.coroutines.*
 class NewsPresenter(private val newsInteractor: NewsInteractor) :
     NewsContract.NewsPresenter {
 
-    var page: Int = 1
-    var pageNumber: Int = 15
-
     private val UPDATE_PERIOD = 500000L
 
     private var view: NewsContract.NewsView? = null
@@ -26,7 +23,7 @@ class NewsPresenter(private val newsInteractor: NewsInteractor) :
         this.view = view
     }
 
-    override fun getNews(showOtherData: Boolean) {
+    override fun getNews(deleteOldAdapterData: Boolean) {
 
         job?.cancel()
         job = GlobalScope.launch(Dispatchers.Main) {
@@ -35,7 +32,7 @@ class NewsPresenter(private val newsInteractor: NewsInteractor) :
                     view?.showProgress()
                     withContext(Dispatchers.IO) {
                         Log.d("Da li ce uci sim", "Da li ce uci sim. pocetak dohvacanja novih podataka")
-                        getRepositoriesAsync(showOtherData)
+                        getNewsAsync(deleteOldAdapterData)
                     }
                 } catch (ex: Exception) {
                     Log.e("Periodic remote failed", ex.toString())
@@ -43,24 +40,18 @@ class NewsPresenter(private val newsInteractor: NewsInteractor) :
                 delay(UPDATE_PERIOD)
             }
         }
-
-//        job = launch(Dispatchers.IO) {
-//            getRepositoriesAsync(repository, sort, order, showOtherData)
-//        }
     }
 
-    suspend fun getRepositoriesAsync(showOtherData: Boolean) {
-
-        if( !showOtherData )
-            page = 1
+    suspend fun getNewsAsync(deleteOldAdapterData: Boolean) {
 
         when (val result = newsInteractor.getRepositories()) {
 
             is Result.Success -> {
                 withContext(Dispatchers.Main) {
+                    if( deleteOldAdapterData && result.data.isNotEmpty() )
+                        view?.clearAdapterThatHasOldData()
                     view?.hideProgress()
                     view?.setNews(result.data)
-                    page++
                 }
             }
             is Result.Error -> {
@@ -74,10 +65,10 @@ class NewsPresenter(private val newsInteractor: NewsInteractor) :
         }
     }
 
-    override fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean) {
+    /*override fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean) {
         if( !showOtherData )
             view?.clearAdapterThatHasOldSearchData()
-    }
+    }*/
 
     override fun stopJobForGettingFreshNews() {
         job?.cancel()
