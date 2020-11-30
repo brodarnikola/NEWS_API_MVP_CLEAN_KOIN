@@ -23,18 +23,6 @@ interface NewsContract {
     }
 
 
-    // user details screen
-    interface UserView {
-        fun showUserDetailInExternalBrowser( userHtmlLink: String)
-    }
-
-    interface UserPresenter{
-        fun attachView(view: UserView)
-        fun deattachView(view: UserView?)
-        fun startToDisplayUserDetailsInBrowser( userHtmlLink: String)
-    }
-
-
     // repository details screen
     interface NewsDetailsView {
         fun displayNewsDetails( newsDetails: List<Articles>)
