@@ -10,7 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.usecase.NewsContract
+import com.vjezba.domain.usecase.NewsDetailsUseCases
+import com.vjezba.domain.usecase.NewsUseCases
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsSlidePagerAdapter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.hide
@@ -19,9 +20,9 @@ import kotlinx.android.synthetic.main.fragment_news_view_pager.*
 import org.koin.android.ext.android.inject
 
 
-class IntroViewPagerFragment : Fragment(), NewsContract.NewsDetailsView {
+class IntroViewPagerFragment : Fragment(), NewsDetailsUseCases.NewsDetailsView {
 
-    private val newsPresenter: NewsContract.NewsDetailsPresenter by inject()
+    private val newsPresenter: NewsDetailsUseCases.NewsDetailsPresenter by inject()
 
     private var firstInitNewsPosition = 0
 

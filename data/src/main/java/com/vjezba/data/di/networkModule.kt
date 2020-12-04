@@ -1,9 +1,11 @@
 package com.vjezba.data.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.vjezba.data.NewsRepositoryImpl
+import com.vjezba.data.repositories.NewsRepositoryImpl
 import com.vjezba.data.environments.Constants
+import com.vjezba.data.repositories.NewsDetailsRepositoryImpl
 import com.vjezba.data.service.NewsService
+import com.vjezba.domain.NewsDetailsRepository
 import com.vjezba.domain.NewsRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 
 //it creates a module in Koin which would be used by Koin to provide all the dependencies.
-val dataModule = module {
+val networkModule = module {
 
     //it creates a singleton that can be used across the app as a singular instance.
     single {
@@ -49,6 +51,12 @@ val dataModule = module {
         val newsRepository: NewsRepository =
             NewsRepositoryImpl(get(), get(), get())
         newsRepository
+    }
+
+    factory {
+        val newsDetailsRepository: NewsDetailsRepository =
+            NewsDetailsRepositoryImpl(get(), get())
+        newsDetailsRepository
     }
 
 }

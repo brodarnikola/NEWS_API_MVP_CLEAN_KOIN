@@ -2,24 +2,24 @@ package com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter
 
 import android.util.Log
 import com.vjezba.domain.NewsInteractor
-import com.vjezba.domain.usecase.NewsContract
+import com.vjezba.domain.usecase.NewsUseCases
 import com.vjezba.domain.Result
 import kotlinx.coroutines.*
 
 class NewsPresenter(private val newsInteractor: NewsInteractor) :
-    NewsContract.NewsPresenter {
+    NewsUseCases.NewsPresenter {
 
     private val UPDATE_PERIOD = 500000L
 
-    private var view: NewsContract.NewsView? = null
+    private var view: NewsUseCases.NewsView? = null
 
     private var job: Job? = null
 
-    override fun attachView(view: NewsContract.NewsView) {
+    override fun attachView(view: NewsUseCases.NewsView) {
         this.view = view
     }
 
-    override fun deattachView(view: NewsContract.NewsView?) {
+    override fun deattachView(view: NewsUseCases.NewsView?) {
         this.view = view
     }
 

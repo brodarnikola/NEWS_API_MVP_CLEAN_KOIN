@@ -6,7 +6,4 @@ import com.vjezba.domain.entities.*
 interface NewsInteractor {
 
     suspend fun getRepositories(): Result<List<Articles>>
-
-    suspend fun getNewsFromRoom(): Result<List<Articles>>
-
 }

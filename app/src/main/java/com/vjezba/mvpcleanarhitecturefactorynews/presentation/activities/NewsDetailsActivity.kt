@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.usecase.NewsContract
+import com.vjezba.domain.usecase.NewsDetailsUseCases
+import com.vjezba.domain.usecase.NewsUseCases
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.fragments.IntroViewPagerFragment
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsDetailsRecyclerViewAdapter
@@ -18,9 +19,9 @@ import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
 import kotlinx.android.synthetic.main.activity_news_details.*
 import org.koin.android.ext.android.inject
 
-class NewsDetailsActivity : AppCompatActivity(), NewsContract.NewsDetailsView {
+class NewsDetailsActivity : AppCompatActivity(), NewsDetailsUseCases.NewsDetailsView {
 
-    private val newsPresenter: NewsContract.NewsDetailsPresenter by inject()
+    private val newsPresenter: NewsDetailsUseCases.NewsDetailsPresenter by inject()
 
     var position = 0
 

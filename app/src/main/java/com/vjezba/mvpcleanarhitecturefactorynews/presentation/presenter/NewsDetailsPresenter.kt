@@ -1,26 +1,26 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter
 
-import com.vjezba.domain.NewsInteractor
+import com.vjezba.domain.NewsDetailsInteractor
 import com.vjezba.domain.Result
-import com.vjezba.domain.usecase.NewsContract
+import com.vjezba.domain.usecase.NewsDetailsUseCases
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class NewsDetailsPresenter(private val newsInteractor: NewsInteractor) :
-    NewsContract.NewsDetailsPresenter, CoroutineScope {
+class NewsDetailsPresenter(private val newsInteractor: NewsDetailsInteractor) :
+    NewsDetailsUseCases.NewsDetailsPresenter, CoroutineScope {
 
-    private var view: NewsContract.NewsDetailsView? = null
+    private var view: NewsDetailsUseCases.NewsDetailsView? = null
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
 
     private var job: Job? = null
 
-    override fun attachView(view: NewsContract.NewsDetailsView) {
+    override fun attachView(view: NewsDetailsUseCases.NewsDetailsView) {
         this.view = view
     }
 
-    override fun deattachView(view: NewsContract.NewsDetailsView?) {
+    override fun deattachView(view: NewsDetailsUseCases.NewsDetailsView?) {
         this.view = view
     }
 
@@ -45,25 +45,5 @@ class NewsDetailsPresenter(private val newsInteractor: NewsInteractor) :
             }
         }
     }
-
-    /*override  fun loadRepositoryDetailsById(repositoryId: Long) {
-        job = launch {
-            getRepositoryDetails(repositoryId)
-        }
-    }
-
-    private suspend fun getRepositoryDetails(repositoryId: Long) {
-        view?.showProgress()
-        when (val result = newsInteractor.getRepositoryDetails(repositoryId)) {
-            is Result.Success -> {
-                view?.displayRepositoryDetails(result.data)
-            }
-            is Result.Error ->
-                result.throwable.message?.let {
-                    view?.showMessage(it)
-                }
-        }
-        view?.hideProgress()
-    }*/
 
 }

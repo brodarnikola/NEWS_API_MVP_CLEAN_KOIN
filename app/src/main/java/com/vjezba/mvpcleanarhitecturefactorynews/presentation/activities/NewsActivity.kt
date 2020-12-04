@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vjezba.domain.entities.Articles
-import com.vjezba.domain.usecase.NewsContract
+import com.vjezba.domain.usecase.NewsUseCases
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsAdapter
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.dialog.ErrorMessageDialog
@@ -15,9 +15,9 @@ import com.vjezba.mvpcleanarhitecturefactorynews.presentation.utils.show
 import kotlinx.android.synthetic.main.activity_news.*
 import org.koin.android.ext.android.inject
 
-class NewsActivity : AppCompatActivity(), NewsContract.NewsView {
+class NewsActivity : AppCompatActivity(), NewsUseCases.NewsView {
 
-    private val newsPresenter: NewsContract.NewsPresenter by inject()
+    private val newsPresenter: NewsUseCases.NewsPresenter by inject()
     private lateinit var newsAdapter: NewsAdapter
     val newsLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 

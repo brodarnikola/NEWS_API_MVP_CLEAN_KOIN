@@ -1,8 +1,7 @@
 package com.vjezba.mvpcleanarhitecturefactorynews
 
 import android.app.Application
-import android.view.View
-import com.vjezba.data.di.dataModule
+import com.vjezba.data.di.networkModule
 import com.vjezba.data.di.databaseModule
 import com.vjezba.domain.coreModule
 import com.vjezba.mvpcleanarhitecturefactorynews.di.presentationModule
@@ -18,7 +17,7 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 presentationModule, coreModule,
-                dataModule, databaseModule
+                networkModule, databaseModule
             )
         }
     }

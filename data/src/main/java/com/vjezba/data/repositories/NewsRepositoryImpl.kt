@@ -1,4 +1,4 @@
-package com.vjezba.data
+package com.vjezba.data.repositories
 
 
 import android.util.Log
@@ -65,13 +65,5 @@ class NewsRepositoryImpl(private val serviceProvider: NewsService, private val d
             }
         }
     }
-
-    override suspend fun getNewsFromRoom(): Result<List<Articles>> {
-        val listDbArticles = dbNews.newsDao().getNews()
-        var listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
-        Log.d("Da li ce uci sim", "Da li ce uci sim. neuspjesnoo, nismo uspjeli dohvatiti nove podatke s backenda")
-        return Result.Success(listArticles)
-    }
-
 
 }
