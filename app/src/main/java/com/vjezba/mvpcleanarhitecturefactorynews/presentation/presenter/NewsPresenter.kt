@@ -1,12 +1,12 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter
 
 import android.util.Log
-import com.vjezba.domain.NewsInteractor
+import com.vjezba.domain.NewsRepository
 import com.vjezba.domain.usecase.NewsUseCases
 import com.vjezba.domain.Result
 import kotlinx.coroutines.*
 
-class NewsPresenter(private val newsInteractor: NewsInteractor) :
+class NewsPresenter(private val newsRepository: NewsRepository) :
     NewsUseCases.NewsPresenter {
 
     private val UPDATE_PERIOD = 500000L
@@ -44,7 +44,7 @@ class NewsPresenter(private val newsInteractor: NewsInteractor) :
 
     suspend fun getNewsAsync(deleteOldAdapterData: Boolean) {
 
-        when (val result = newsInteractor.getRepositories()) {
+        when (val result = newsRepository.getRepositories()) {
 
             is Result.Success -> {
                 withContext(Dispatchers.Main) {
@@ -64,11 +64,6 @@ class NewsPresenter(private val newsInteractor: NewsInteractor) :
             }
         }
     }
-
-    /*override fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean) {
-        if( !showOtherData )
-            view?.clearAdapterThatHasOldSearchData()
-    }*/
 
     override fun stopJobForGettingFreshNews() {
         job?.cancel()

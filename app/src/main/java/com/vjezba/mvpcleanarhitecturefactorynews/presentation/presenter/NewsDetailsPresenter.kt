@@ -1,12 +1,12 @@
 package com.vjezba.mvpcleanarhitecturefactorynews.presentation.presenter
 
-import com.vjezba.domain.NewsDetailsInteractor
+import com.vjezba.domain.NewsDetailsRepository
 import com.vjezba.domain.Result
 import com.vjezba.domain.usecase.NewsDetailsUseCases
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class NewsDetailsPresenter(private val newsInteractor: NewsDetailsInteractor) :
+class NewsDetailsPresenter(private val newsDetailsRepository: NewsDetailsRepository) :
     NewsDetailsUseCases.NewsDetailsPresenter, CoroutineScope {
 
     private var view: NewsDetailsUseCases.NewsDetailsView? = null
@@ -27,7 +27,7 @@ class NewsDetailsPresenter(private val newsInteractor: NewsDetailsInteractor) :
     override fun loadNewsFromRoom() {
         job?.cancel()
         job = launch {
-            val result = newsInteractor.getNewsFromRoom()
+            val result = newsDetailsRepository.getNewsFromRoom()
             withContext(Dispatchers.Main) {
                 when (result) {
                     is Result.Success -> {

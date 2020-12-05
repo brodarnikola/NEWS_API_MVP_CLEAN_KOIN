@@ -18,7 +18,6 @@ interface NewsUseCases {
         fun attachView(view: NewsView)
         fun deattachView(view: NewsView?)
         fun getNews(deleteOldAdapterData: Boolean)
-        //fun isNewSearchNewQueryForRepositoriesStarted(showOtherData: Boolean)
         fun stopJobForGettingFreshNews()
     }
 
