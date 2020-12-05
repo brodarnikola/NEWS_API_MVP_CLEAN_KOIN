@@ -1,21 +1,19 @@
 package com.vjezba.domain.usecase
 
 import com.vjezba.domain.entities.Articles
+import org.koin.sampleapp.util.mvp.BasePresenter
+import org.koin.sampleapp.util.mvp.BaseView
 
 
 interface NewsDetailsUseCases {
 
-    // repository details screen
-    interface NewsDetailsView {
+    // news details screen
+    interface NewsDetailsView : BaseView {
         fun displayNewsDetails( newsDetails: List<Articles>)
         fun showMessage(message: String)
-        fun showProgress()
-        fun hideProgress()
     }
 
-    interface NewsDetailsPresenter{
-        fun attachView(view: NewsDetailsView)
-        fun deattachView(view: NewsDetailsView?)
+    interface NewsDetailsPresenter : BasePresenter<NewsDetailsView> {
         fun loadNewsFromRoom()
     }
 }

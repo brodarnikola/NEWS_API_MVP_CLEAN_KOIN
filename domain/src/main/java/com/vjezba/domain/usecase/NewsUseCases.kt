@@ -1,22 +1,20 @@
 package com.vjezba.domain.usecase
 
 import com.vjezba.domain.entities.Articles
+import org.koin.sampleapp.util.mvp.BasePresenter
+import org.koin.sampleapp.util.mvp.BaseView
 
 
 interface NewsUseCases {
 
-    // repositories screen
-    interface NewsView {
-        fun showProgress()
-        fun hideProgress()
+    // news screen
+    interface NewsView : BaseView {
         fun showMessage(message: String)
         fun setNews(articles: List<Articles>)
         fun clearAdapterThatHasOldData()
     }
 
-    interface NewsPresenter{
-        fun attachView(view: NewsView)
-        fun deattachView(view: NewsView?)
+    interface NewsPresenter: BasePresenter<NewsView>{
         fun getNews(deleteOldAdapterData: Boolean)
         fun stopJobForGettingFreshNews()
     }

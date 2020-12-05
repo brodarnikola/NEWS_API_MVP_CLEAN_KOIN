@@ -87,8 +87,8 @@ class NewsActivity : AppCompatActivity(), NewsUseCases.NewsView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         newsPresenter.deattachView(null)
+        super.onDestroy()
     }
 
 }

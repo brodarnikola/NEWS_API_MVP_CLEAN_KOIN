@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.vjezba.domain.entities.Articles
 import com.vjezba.domain.usecase.NewsDetailsUseCases
-import com.vjezba.domain.usecase.NewsUseCases
 import com.vjezba.mvpcleanarhitecturefactorynews.R
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.fragments.IntroViewPagerFragment
 import com.vjezba.mvpcleanarhitecturefactorynews.presentation.adapters.NewsDetailsRecyclerViewAdapter
@@ -21,7 +20,7 @@ import org.koin.android.ext.android.inject
 
 class NewsDetailsActivity : AppCompatActivity(), NewsDetailsUseCases.NewsDetailsView {
 
-    private val newsPresenter: NewsDetailsUseCases.NewsDetailsPresenter by inject()
+    private val newsDetailsPresenter: NewsDetailsUseCases.NewsDetailsPresenter by inject()
 
     var position = 0
 
@@ -35,7 +34,7 @@ class NewsDetailsActivity : AppCompatActivity(), NewsDetailsUseCases.NewsDetails
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_details)
-        newsPresenter.attachView( this )
+        newsDetailsPresenter.attachView( this )
     }
 
     override fun onStart() {
@@ -93,7 +92,7 @@ class NewsDetailsActivity : AppCompatActivity(), NewsDetailsUseCases.NewsDetails
 
     private fun getDataOnlyOnce() {
         if( !dataFetched )
-            newsPresenter.loadNewsFromRoom()
+            newsDetailsPresenter.loadNewsFromRoom()
     }
 
     override fun displayNewsDetails(newsDetails: List<Articles>) {
@@ -115,7 +114,10 @@ class NewsDetailsActivity : AppCompatActivity(), NewsDetailsUseCases.NewsDetails
         progressBar.hide()
     }
 
-
+    override fun onDestroy() {
+        newsDetailsPresenter.deattachView(null)
+        super.onDestroy()
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
