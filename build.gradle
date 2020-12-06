@@ -7,6 +7,13 @@ buildscript {
         koinVersion = KOIN_VERSION
         retrofitVersion = RETROFIT_VERSION
         okhttp3LogInterceptor = OKHTTP3LOGINTERCEPTOR_VERSION
+
+        glideVersion = GLIDE_VERSION
+        lifecycleRuntimeVersion = LIFECYCLE_RUNTIME_VERSION
+        googleMaterialVersion = GOOGLE_MATERIAL_VERSION
+        viewPager2Version = VIEWPAGER2_VERSION
+        retrofit2KotlinCoroutinesAdapterVersion = RETROFIT2_KOTLIN_COROUTINES_ADAPTER_VERSION
+        roomVersion = ROOM_VERSION
     }
 
 

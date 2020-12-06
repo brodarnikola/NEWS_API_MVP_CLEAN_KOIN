@@ -13,7 +13,7 @@ class NewsDetailsRepositoryImpl(private val dbNews: NewsDatabase,
 
     override suspend fun getNewsFromRoom(): Result<List<Articles>> {
         val listDbArticles = dbNews.newsDao().getNews()
-        var listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
+        val listArticles = dbMapper.mapDBArticlesToArticles(listDbArticles)
         Log.d("Da li ce uci sim", "Da li ce uci sim. neuspjesnoo, nismo uspjeli dohvatiti nove podatke s backenda")
         return Result.Success(listArticles)
     }
