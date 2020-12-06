@@ -7,7 +7,6 @@ buildscript {
         koinVersion = KOIN_VERSION
         retrofitVersion = RETROFIT_VERSION
         okhttp3LogInterceptor = OKHTTP3LOGINTERCEPTOR_VERSION
-
         glideVersion = GLIDE_VERSION
         lifecycleRuntimeVersion = LIFECYCLE_RUNTIME_VERSION
         googleMaterialVersion = GOOGLE_MATERIAL_VERSION
