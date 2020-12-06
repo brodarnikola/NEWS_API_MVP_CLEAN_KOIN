@@ -8,12 +8,14 @@ import android.graphics.Rect
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.vjezba.mvpcleanarhitecturefactorynews.R
 
 class PagerNewsDetailsDecorator : RecyclerView.ItemDecoration() {
 
-    private val colorActive = Color.parseColor("#615A58")
+    private val colorActive = Color.parseColor( "#ff0099cc")
     private val colorInactive = Color.parseColor("#BBAFAC")
 
     /**

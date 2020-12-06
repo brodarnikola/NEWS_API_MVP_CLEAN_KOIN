@@ -2,4 +2,7 @@
     <string name="app_name">MVPCleanArhitectureFactoryNews</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="news_activity_title">Factory News</string>
+    <string name="news_details_activity_title">News details</string>
 </resources>

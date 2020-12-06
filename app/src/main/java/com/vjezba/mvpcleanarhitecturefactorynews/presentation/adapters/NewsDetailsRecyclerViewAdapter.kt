@@ -84,8 +84,8 @@ class NewsDetailsRecyclerViewAdapter(var articlesList: MutableList<Articles>, va
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.photo)
 
-        holder.newsTitle.text = "Name: " + article.title
-        holder.newsDescription.text = "Name: " + article.description
+        holder.newsTitle.text = article.title
+        holder.newsDescription.text = article.description
 
         newsDetailsActivity.tvTitle?.text = article.title
     }

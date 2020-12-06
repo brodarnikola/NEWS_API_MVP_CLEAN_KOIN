@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="REPOSITORY DETAILS"
+                android:text="@string/news_details_activity_title"
                 android:textColor="@android:color/white"
                 android:maxLines="2"
                 android:ellipsize="end"
@@ -60,13 +60,15 @@
             android:id="@+id/radioButtonViewPager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ViewPager"/>
+            android:text="ViewPager"
+            android:buttonTint="@color/colorBlueDark"/>
 
         <RadioButton
             android:id="@+id/radioButtonRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RecyclerView"/>
+            android:text="RecyclerView"
+            android:buttonTint="@color/colorBlueDark"/>
 
     </RadioGroup>
 
@@ -74,7 +76,6 @@
         android:id="@+id/recylcerViewData"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@android:color/holo_blue_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

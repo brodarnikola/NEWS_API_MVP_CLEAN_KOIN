@@ -42,7 +42,7 @@ class NewsAdapter(var articlesList: MutableList<Articles>,
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.photo)
 
-        holder.title.text = "Name: " + article.title
+        holder.title.text = article.title
 
         holder.layoutParent.setOnClickListener{
             ArticlesClickListener(position)

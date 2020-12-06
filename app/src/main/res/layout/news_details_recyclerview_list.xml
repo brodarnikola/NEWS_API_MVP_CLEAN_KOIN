@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="dadsads"
         android:textColor="@android:color/black"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_gravity="left"
         android:layout_margin="20sp"
         android:textStyle="bold"  />
@@ -30,10 +30,9 @@
         android:id="@+id/newsDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20sp"
+        android:layout_marginLeft="18sp"
         android:text="dassads"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"  />
+        android:textColor="@android:color/black"  />
 
 
 </LinearLayout>
