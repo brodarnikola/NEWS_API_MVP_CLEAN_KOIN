@@ -26,6 +26,7 @@ class NewsDetailsPresenter(private val newsDetailsRepository: NewsDetailsReposit
 
     override fun loadNewsFromRoom() {
         job?.cancel()
+        view?.showProgress()
         job = launch {
             val result = newsDetailsRepository.getNewsFromRoom()
             withContext(Dispatchers.Main) {
